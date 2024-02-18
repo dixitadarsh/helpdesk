@@ -119,4 +119,10 @@ export class StatusupdateComponent implements OnInit {
     }
     return linkedInput
   }
+  isAddMoreDisabled(controller: string): boolean {
+    const completedTasks = this.dailyUpdateForm.get(controller) as FormArray;
+    const lastTask = completedTasks.at(completedTasks.length - 1);
+    if (!lastTask) return false; // If no tasks exist, allow adding more
+    return !lastTask.value.tasks; // Disable if the last task's value is empty
+  }
 }

@@ -1,15 +1,15 @@
 <main class="main">
     <div class="content">
-      <div class="left-side">
+      <div class="left-side p-2">
         <form [formGroup]="dailyUpdateForm">
           <div>
-            <mat-form-field appearance="outline" class="w-75">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Client Name</mat-label>
               <input matInput placeholder="Client Name" formControlName="client" />
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="outline" class="w-75">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Project Name</mat-label>
               <input matInput placeholder="Project Name" formControlName="project" />
             </mat-form-field>
@@ -17,7 +17,7 @@
           <div class="completed">
             <div class="d-flex justify-content-between align-items-center">
               <mat-label><b>List of completed tasks: </b></mat-label>
-              <button mat-button (click)="addFormArrayControls('completed')">+ Add More</button>
+              <button mat-button (click)="addFormArrayControls('completed')" [disabled]="isAddMoreDisabled('completed')">+ Add More</button>
             </div>
             <div class="mt-2 completed" formArrayName="completed">
               <div *ngFor="let creds of completed.controls; let i = index">
@@ -25,7 +25,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Task Description {{i+1}}</mat-label>
                     <input matInput placeholder="Task Description" formControlName="tasks" />
-                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('completed',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                    <mat-icon matSuffix class="delete-icon pointercursor" (click)="removeSkill('completed',i)" *ngIf="i > 0">delete_forever</mat-icon>
                   </mat-form-field>
                 </div>
               </div>
@@ -34,7 +34,7 @@
           <div class="inProgress">
             <div class="d-flex justify-content-between align-items-center">
               <mat-label><b>List of in progress tasks: </b></mat-label>
-              <button mat-button (click)="addFormArrayControls('inprogress')">+ Add More</button>
+              <button mat-button (click)="addFormArrayControls('inprogress')" [disabled]="isAddMoreDisabled('inprogress')">+ Add More</button>
             </div>
             <div class="mt-2 inprogress" formArrayName="inprogress">
               <div *ngFor="let creds of inprogress.controls; let i = index">
@@ -42,7 +42,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Task Description {{i+1}}</mat-label>
                     <input matInput placeholder="Task Description" formControlName="tasks" />
-                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('inprogress',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                    <mat-icon matSuffix class="delete-icon pointercursor" (click)="removeSkill('inprogress',i)" *ngIf="i > 0">delete_forever</mat-icon>
                   </mat-form-field>
                 </div>
               </div>
@@ -51,7 +51,7 @@
           <div class="remaining">
             <div class="d-flex justify-content-between align-items-center">
               <mat-label><b>List of remaining tasks: </b></mat-label>
-              <button mat-button (click)="addFormArrayControls('remaining')">+ Add More</button>
+              <button mat-button (click)="addFormArrayControls('remaining')" [disabled]="isAddMoreDisabled('remaining')">+ Add More</button>
             </div>
             <div class="mt-2 remaining" formArrayName="remaining">
               <div *ngFor="let creds of remaining.controls; let i = index">
@@ -59,7 +59,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Task Description {{i+1}}</mat-label>
                     <input matInput placeholder="Task Description" formControlName="tasks" />
-                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('remaining',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                    <mat-icon matSuffix class="delete-icon pointercursor" (click)="removeSkill('remaining',i)" *ngIf="i > 0">delete_forever</mat-icon>
                   </mat-form-field>
                 </div>
               </div>
@@ -68,7 +68,7 @@
           <div class="queries">
             <div class="d-flex justify-content-between align-items-center">
               <mat-label><b>Queries: </b></mat-label>
-              <button mat-button (click)="addFormArrayControls('queries')">+ Add More</button>
+              <button mat-button (click)="addFormArrayControls('queries')" [disabled]="isAddMoreDisabled('queries')">+ Add More</button>
             </div>
             <div class="mt-2 queries" formArrayName="queries">
               <div *ngFor="let creds of queries.controls; let i = index">
@@ -76,7 +76,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Query {{i+1}}</mat-label>
                     <input matInput placeholder="Task Description" formControlName="tasks" />
-                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('queries',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                    <mat-icon matSuffix class="delete-icon pointercursor" (click)="removeSkill('queries',i)" *ngIf="i > 0">delete_forever</mat-icon>
                   </mat-form-field>
                 </div>
               </div>
@@ -85,7 +85,7 @@
           <div class="notes">
             <div class="d-flex justify-content-between align-items-center">
               <mat-label><b>Notes: </b></mat-label>
-              <button mat-button (click)="addFormArrayControls('notes')">+ Add More</button>
+              <button mat-button (click)="addFormArrayControls('notes')" [disabled]="isAddMoreDisabled('notes')">+ Add More</button>
             </div>
             <div class="mt-2 notes" formArrayName="notes">
               <div *ngFor="let creds of notes.controls; let i = index">
@@ -93,7 +93,7 @@
                   <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Note {{i+1}}</mat-label>
                     <input matInput placeholder="Task Description" formControlName="tasks" />
-                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('notes',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                    <mat-icon matSuffix class="delete-icon pointercursor" (click)="removeSkill('notes',i)" *ngIf="i > 0">delete_forever</mat-icon>
                   </mat-form-field>
                 </div>
               </div>
@@ -121,23 +121,23 @@
               <div *ngIf="dailyUpdateForm.value.completed.length >= 1 && dailyUpdateForm.value.completed[0].tasks.length > 0" class="mt-3" #completed>
                 <h3 style="text-decoration: underline;" class="m-0"><b>List of Completed Tasks</b></h3>
                 <ol>
-                  <li *ngFor="let completed of dailyUpdateForm.value.completed;let i = index" [id]="i" [innerHTML]="convertLinks(completed.tasks,'completed')">
-                  </li>
+                  <ng-container *ngFor="let completed of dailyUpdateForm.value.completed;let i = index">
+                    <li [innerHTML]="convertLinks(completed.tasks,'completed')" *ngIf="completed.tasks.length> 0">
+                    </li>
+                  </ng-container>
                 </ol>
               </div>
               <div *ngIf="dailyUpdateForm.value.inprogress.length >= 1  && dailyUpdateForm.value.inprogress[0].tasks.length > 0" class="mt-3" #inprogress>
                 <h3 style="text-decoration: underline;" class="m-0"><b>List of In-Progress Tasks</b></h3>
                 <ol>
-                  <li *ngFor="let inprogress of dailyUpdateForm.value.inprogress;let i = index">
-                    {{inprogress.tasks}}
+                  <li *ngFor="let inprogress of dailyUpdateForm.value.inprogress;let i = index" [innerHTML]="convertLinks(inprogress.tasks,'inprogress')">
                   </li>
                 </ol>
               </div>
               <div *ngIf="dailyUpdateForm.value.remaining.length >= 1  && dailyUpdateForm.value.remaining[0].tasks.length > 0" class="mt-3" #remaining>
                 <h3 style="text-decoration: underline;" class="m-0"><b>List of Remaining Tasks</b></h3>
                 <ol>
-                  <li *ngFor="let remaining of dailyUpdateForm.value.remaining;let i = index">
-                    {{remaining.tasks}} 
+                  <li *ngFor="let remaining of dailyUpdateForm.value.remaining;let i = index" [innerHTML]="convertLinks(remaining.tasks,'remaining')">
                   </li>
                 </ol>
               </div>
@@ -146,16 +146,14 @@
                   <b>Queries</b><br>
                 </h3>
                 <ol>
-                  <li *ngFor="let queries of dailyUpdateForm.value.queries;let i = index">
-                    {{queries.tasks}}
+                  <li *ngFor="let queries of dailyUpdateForm.value.queries;let i = index" [innerHTML]="convertLinks(queries.tasks,'queries')">
                   </li>
                 </ol>
               </div>
               <div *ngIf="dailyUpdateForm.value.notes.length >= 1 && dailyUpdateForm.value.notes[0].tasks.length > 0" class="mt-3" #notes>
                 <h3 style="text-decoration: underline;" class="m-0"><b>Notes</b></h3>
                 <ol>
-                  <li *ngFor="let notes of dailyUpdateForm.value.notes;let i = index">
-                    {{notes.tasks}}
+                  <li *ngFor="let notes of dailyUpdateForm.value.notes;let i = index" [innerHTML]="convertLinks(notes.tasks,'notes')">
                   </li>
                 </ol>
               </div>
