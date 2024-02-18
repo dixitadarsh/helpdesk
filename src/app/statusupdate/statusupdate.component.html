@@ -1,0 +1,173 @@
+<main class="main">
+    <div class="content">
+      <div class="left-side">
+        <form [formGroup]="dailyUpdateForm">
+          <div>
+            <mat-form-field appearance="outline" class="w-75">
+              <mat-label>Client Name</mat-label>
+              <input matInput placeholder="Client Name" formControlName="client" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="w-75">
+              <mat-label>Project Name</mat-label>
+              <input matInput placeholder="Project Name" formControlName="project" />
+            </mat-form-field>
+          </div>
+          <div class="completed">
+            <div class="d-flex justify-content-between align-items-center">
+              <mat-label><b>List of completed tasks: </b></mat-label>
+              <button mat-button (click)="addFormArrayControls('completed')">+ Add More</button>
+            </div>
+            <div class="mt-2 completed" formArrayName="completed">
+              <div *ngFor="let creds of completed.controls; let i = index">
+                <div [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Task Description {{i+1}}</mat-label>
+                    <input matInput placeholder="Task Description" formControlName="tasks" />
+                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('completed',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inProgress">
+            <div class="d-flex justify-content-between align-items-center">
+              <mat-label><b>List of in progress tasks: </b></mat-label>
+              <button mat-button (click)="addFormArrayControls('inprogress')">+ Add More</button>
+            </div>
+            <div class="mt-2 inprogress" formArrayName="inprogress">
+              <div *ngFor="let creds of inprogress.controls; let i = index">
+                <div [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Task Description {{i+1}}</mat-label>
+                    <input matInput placeholder="Task Description" formControlName="tasks" />
+                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('inprogress',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="remaining">
+            <div class="d-flex justify-content-between align-items-center">
+              <mat-label><b>List of remaining tasks: </b></mat-label>
+              <button mat-button (click)="addFormArrayControls('remaining')">+ Add More</button>
+            </div>
+            <div class="mt-2 remaining" formArrayName="remaining">
+              <div *ngFor="let creds of remaining.controls; let i = index">
+                <div [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Task Description {{i+1}}</mat-label>
+                    <input matInput placeholder="Task Description" formControlName="tasks" />
+                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('remaining',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="queries">
+            <div class="d-flex justify-content-between align-items-center">
+              <mat-label><b>Queries: </b></mat-label>
+              <button mat-button (click)="addFormArrayControls('queries')">+ Add More</button>
+            </div>
+            <div class="mt-2 queries" formArrayName="queries">
+              <div *ngFor="let creds of queries.controls; let i = index">
+                <div [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Query {{i+1}}</mat-label>
+                    <input matInput placeholder="Task Description" formControlName="tasks" />
+                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('queries',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="notes">
+            <div class="d-flex justify-content-between align-items-center">
+              <mat-label><b>Notes: </b></mat-label>
+              <button mat-button (click)="addFormArrayControls('notes')">+ Add More</button>
+            </div>
+            <div class="mt-2 notes" formArrayName="notes">
+              <div *ngFor="let creds of notes.controls; let i = index">
+                <div [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Note {{i+1}}</mat-label>
+                    <input matInput placeholder="Task Description" formControlName="tasks" />
+                    <mat-icon matSuffix class="delete-icon" (click)="removeSkill('notes',i)" *ngIf="i > 0">delete_forever</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="divider" role="separator" aria-label="Divider"></div>
+      <div class="right-side">
+        <div *ngIf="dailyUpdateForm.value.project">
+          <div class="py-2 d-flex align-items-center justify-content-end">
+            <button mat-raised-button color="primary" class="mx-3" (click)="onCopied()">Copy Subject</button>
+            <button mat-raised-button color="primary" (click)="onCopiedMail()">Copy Update Mail</button>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="p-4">
+            <h3 class="m-0 p-0" #updateText id="updateText" cdkCopyToClipboard>
+              Update: {{dailyUpdateForm.value.project | titlecase}} Progress Report - {{today | date:'dd MMMM, YYYY'}}
+            </h3>
+            <div cdkCopyToClipboard #mailContent id="mailContent">
+              <p class="client-name">
+                Hello {{dailyUpdateForm.value.client | titlecase}} ,
+              </p>
+              <p>I hope this email finds you well. <br>I am pleased to provide you with the latest updates on our <b>{{dailyUpdateForm.value.project | titlecase}}</b> project as of <b>{{today | date:'dd MMMM, YYYY'}}</b>.</p>
+              <div *ngIf="dailyUpdateForm.value.completed.length >= 1 && dailyUpdateForm.value.completed[0].tasks.length > 0" class="mt-3" #completed>
+                <h3 style="text-decoration: underline;" class="m-0"><b>List of Completed Tasks</b></h3>
+                <ol>
+                  <li *ngFor="let completed of dailyUpdateForm.value.completed;let i = index" [id]="i" [innerHTML]="convertLinks(completed.tasks,'completed')">
+                  </li>
+                </ol>
+              </div>
+              <div *ngIf="dailyUpdateForm.value.inprogress.length >= 1  && dailyUpdateForm.value.inprogress[0].tasks.length > 0" class="mt-3" #inprogress>
+                <h3 style="text-decoration: underline;" class="m-0"><b>List of In-Progress Tasks</b></h3>
+                <ol>
+                  <li *ngFor="let inprogress of dailyUpdateForm.value.inprogress;let i = index">
+                    {{inprogress.tasks}}
+                  </li>
+                </ol>
+              </div>
+              <div *ngIf="dailyUpdateForm.value.remaining.length >= 1  && dailyUpdateForm.value.remaining[0].tasks.length > 0" class="mt-3" #remaining>
+                <h3 style="text-decoration: underline;" class="m-0"><b>List of Remaining Tasks</b></h3>
+                <ol>
+                  <li *ngFor="let remaining of dailyUpdateForm.value.remaining;let i = index">
+                    {{remaining.tasks}} 
+                  </li>
+                </ol>
+              </div>
+              <div *ngIf="dailyUpdateForm.value.queries.length >= 1  && dailyUpdateForm.value.queries[0].tasks.length > 0" class="mt-3" #queries>
+                <h3 style="text-decoration: underline;" class="m-0">
+                  <b>Queries</b><br>
+                </h3>
+                <ol>
+                  <li *ngFor="let queries of dailyUpdateForm.value.queries;let i = index">
+                    {{queries.tasks}}
+                  </li>
+                </ol>
+              </div>
+              <div *ngIf="dailyUpdateForm.value.notes.length >= 1 && dailyUpdateForm.value.notes[0].tasks.length > 0" class="mt-3" #notes>
+                <h3 style="text-decoration: underline;" class="m-0"><b>Notes</b></h3>
+                <ol>
+                  <li *ngFor="let notes of dailyUpdateForm.value.notes;let i = index">
+                    {{notes.tasks}}
+                  </li>
+                </ol>
+              </div>
+              <p>
+                Your input and feedback on the latest updates would be greatly appreciated. Please review the provided updates and let us know your thoughts on the progress made.
+              </p>
+              <p>
+                Thank you for your attention to this matter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
